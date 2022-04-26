@@ -1,4 +1,7 @@
 ### Hi there 👋
+<img alt="HTML5" src ="https://img.shields.io/badge/-HTML5-F05032.svg?&style=for-the-badge&logo=html5&logoColor=ffffff"/>
+<img alt="CSS3" src ="https://img.shields.io/badge/-CSS3-007ACC.svg?&style=for-the-badge&logo=css3&logoColor=ffffff"/>
+<img alt="Java" src ="https://img.shields.io/badge/-Java-007ACC.svg?&style=for-the-badge&logo=java&logoColor=ffffff"/>
 <img src="https://img.shields.io/github/commit-activity/w/ohdoseok/ohdoseok"/>
 <!--
 **ohdoseok/ohdoseok** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
