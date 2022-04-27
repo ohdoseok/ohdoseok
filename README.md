@@ -1,9 +1,11 @@
 ### Hi there 👋
+
+>
 ___
 ![HTML5](https://img.shields.io/badge/-HTML5-F05032.svg?&style=for-the-badge&logo=html5&logoColor=ffffff)
 ![CSS3](https://img.shields.io/badge/-CSS3-007ACC.svg?&style=for-the-badge&logo=css3&logoColor=ffffff)
 ![Java](https://img.shields.io/badge/-Java-007ACC.svg?&style=for-the-badge&logo=java&logoColor=ffffff)
-___
+<br>
 <img src="https://img.shields.io/github/commit-activity/w/ohdoseok/ohdoseok"/>
 <!--
 **ohdoseok/ohdoseok** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
