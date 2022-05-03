@@ -5,7 +5,7 @@ ___
 ![HTML5](https://img.shields.io/badge/-HTML5-F05032.svg?&style=for-the-badge&logo=html5&logoColor=ffffff)
 ![CSS3](https://img.shields.io/badge/-CSS3-007ACC.svg?&style=for-the-badge&logo=css3&logoColor=ffffff)
 ![Java](https://img.shields.io/badge/-Java-007ACC.svg?&style=for-the-badge&logo=java&logoColor=ffffff)
-![VueJs](https://img.shields.io/badge/-Vue-007ACC.svg?&style=for-the-badge&logo=vue&logoColor=ffffff)
+![#4FC08D](https://img.shields.io/badge/-Vue-007ACC.svg?&style=for-the-badge&logo=vue&logoColor=ffffff)
 <br>
 <img src="https://img.shields.io/github/commit-activity/w/ohdoseok/ohdoseok"/>
 <!--
