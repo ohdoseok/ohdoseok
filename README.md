@@ -5,7 +5,7 @@ ___
 ![HTML5](https://img.shields.io/badge/-HTML5-F05032.svg?&style=for-the-badge&logo=html5&logoColor=ffffff)
 ![CSS3](https://img.shields.io/badge/-CSS3-007ACC.svg?&style=for-the-badge&logo=css3&logoColor=ffffff)
 ![Java](https://img.shields.io/badge/-Java-007ACC.svg?&style=for-the-badge&logo=java&logoColor=ffffff)
-![#4FC08D](https://img.shields.io/badge/-Vue-007ACC.svg?&style=for-the-badge&logo=vue&logoColor=ffffff)
+![Vue](https://img.shields.io/badge/tokio-black.svg?logo=data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTI0IDEuNjFoLTkuOTRMMTIgNS4xNiA5Ljk0IDEuNjFIMGwxMiAyMC43OFpNMTIgMTQuMDggNS4xNiAyLjIzaDQuNDNMMTIgNi40MWwyLjQxLTQuMThoNC40M1oiLz48L3N2Zz4=&style=for-the-badge)
 <br>
 <img src="https://img.shields.io/github/commit-activity/w/ohdoseok/ohdoseok"/>
 <!--
