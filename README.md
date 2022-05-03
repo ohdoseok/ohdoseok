@@ -6,6 +6,7 @@ ___
 ![CSS3](https://img.shields.io/badge/-CSS3-007ACC.svg?&style=for-the-badge&logo=css3&logoColor=ffffff)
 ![Java](https://img.shields.io/badge/-Java-CC3333.svg?&style=for-the-badge&logo=java&logoColor=ffffff)
 ![Vue.js](https://img.shields.io/badge/-Vue.js-009900.svg?&style=for-the-badge&logo=vue.js&logoColor=ffffff)
+![MySql](https://img.shields.io/badge/-MySql-3399FF.svg?&style=for-the-badge&logo=mysql&logoColor=ffffff)
 <br>
 <img src="https://img.shields.io/github/commit-activity/w/ohdoseok/ohdoseok"/>
 <!--
