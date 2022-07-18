@@ -47,3 +47,6 @@ default는 null 허용
 ---
 문자의 갯수 제한은 어떻게?
 @Column(length = 256) -> 256자로 제한
+
+---
+@Entity인 클래스는 public이나 protected 의 아무인자없는 기본생성자를 필요로 한다.
