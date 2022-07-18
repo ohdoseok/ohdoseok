@@ -27,3 +27,23 @@ jpa는 EntityManager라는 걸로 작동, spring에서 생성
 
 ---
 jpa를 사용하려면 tx있어야함, service에 @Transactional
+
+---
+jpa Auditing
+@createdDate 생성일시
+@createdby 생성자
+@lastmodifieddate 수정일시
+@lastmodifiedby 수정자
+
+생성일시는 어떻게 안다고 쳐도 생성자는 어떻게 아는가? 생성자에 대한 정보가 있는가??
+-> auditoraware<T>(){ return ()-> Optional.of("생성자")}
+
+---
+not null과 null을 어떻게 알것인가?
+@Column(nullable = false)  -> not null 
+default는 null 허용
+
+
+---
+문자의 갯수 제한은 어떻게?
+@Column(length = 256) -> 256자로 제한
