@@ -1,7 +1,13 @@
 * JPA란?
+jpa는 표준 orm(object-relational mapping) 객체를 저장하고 객체끼리 관계도 맺는 java(객체지향적)
 과거에 jdbc를 사용할때는 모든 sql문을 작성해서 보내줘야했고, 이를 보완하기 위해서
 mybatis나 jdbc template가 나왔지만 여전히 sql문을 작성해야했다.
 jpa는 개발자 대신 sql문을 생성해준다.
+jpa에서 다중성 1:n과 n:1은 다르다.
+부모테이블을 조회를 해서 자식테이블의 건수를 가져오려면 1:n
+자식테이블을 조회를 해서 부모테이블의 건수를 가져오려면 n:1
+양방향은 jpa에서는 지양(두 개의 테이블이 서로의 fk를 가지고 있는것)
+1:n에서 n쪽이 항상 주인이다.@manytoone
 * @ 종류
 @Id는 해당 프로퍼티가 테이블의 primary key 역할을 한다는 것을 나타낸다.
 @GeneratedValue는 primary key를 위한 자동 생성 전략을 명시하는데 사용한다.
@@ -16,6 +22,7 @@ jpa를 사용하기 위해서는 entity를 mapping해줘야한다.
 @Id => primary key
 * @GeneratedValue
 Auto Increment  ID => Identity 전략 => @GeneratedValue(strategy = GenerationType.IDENTITY
+@Column(columnDefinition = "INT UNSIGNED")이러면 key값이 -를 제외하고 나오기 때문에 성능 향상
 
 ---
 jpa는 EntityManager라는 걸로 작동, spring에서 생성
