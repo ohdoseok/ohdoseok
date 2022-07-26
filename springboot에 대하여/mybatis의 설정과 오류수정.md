@@ -58,4 +58,4 @@ SHOW GRANTS FOR 계정명@localhost;
 
 ---
 
-mybatis 에서 id는 mapper에서의 method// parameterType는 전달하는 값의 타입// resultType는 전달받아서 저장하는 값의 타입
+mybatis 에서 id는 mapper에서의 method// parameterType는 전달하는 값의 타입, 2개 이상이라면 map으로 받아서 #{key}로 부를수있다 // resultType는 전달받아서 저장하는 값의 타입
