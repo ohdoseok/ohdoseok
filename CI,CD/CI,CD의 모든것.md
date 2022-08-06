@@ -62,7 +62,7 @@ sudo passwd root ( root 비밀번호 변경 )
 
 ```
 1. sudo vi /etc/default/jenkins
-<img src = "images/jenkinsport1.png">
+<img src = "./images/jenkinsport1.png">
 i (insert mode)
 HTTP_PORT = 바꿀포트번호
 
