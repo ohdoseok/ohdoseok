@@ -1,7 +1,7 @@
-왕초보도 따라만하면 되는 EC2, Jenkins, Nginx, Certbot, Gitlab, React, SpringBoot, Mysql을 사용하는 CI/CD
----
+## 왕초보도 따라만하면 되는 EC2, Jenkins, Nginx, Certbot, Gitlab, React, SpringBoot, Mysql을 사용하는 CI/CD
 
 ## 개념
+
 EC2에 설치된 Jenkins가 Gitlab의 지정된 branch에서 trigger를 감지하면 자동으로 EC2내의 지정된 장소로 지속적인 통합(CI) 한다.
 그리고 미리 정해놓은 shell명령어로 Build한다. (만약 한 repository에서 frontend와 backend를 모두 관리하고 있다면 각각을 Build해주는 명령어를 넣어줘야한다.)
 Build가 완료 되었다면 jenkins가 실행까지 했을텐데(지속적인 배포 : CD), 여기서 nginx가 들어오는 요청을 보고 각각 front쪽인지 back쪽인지 판단해서 api를 보내주는 api_gateway 역할을 한다.
@@ -10,6 +10,7 @@ Build가 완료 되었다면 jenkins가 실행까지 했을텐데(지속적인 �
 ---
 
 ## 시작
+
 준비물 : 간단한 frontend코드, 간단한 backend코드 -> 왕초보는 천천히 수동으로 build하면서 확인해보는게 좋은 것 같다. 그러려면 작동을 하는지 확인을 할 수있는 간단한 코드가 필요하다.
 
 ### 먼저 EC2에 접속하고 root 비밀번호와 ubuntu 비밀번호를 생성하자
@@ -34,7 +35,7 @@ passwd: password updated successfully
 
 ```
 
-* 팁
+- 팁
 
 ```
 
@@ -45,6 +46,7 @@ sudo passwd root ( root 비밀번호 변경 )
 ### EC2에 jenkins와 mysql, nginx를 설치해보자
 
 #### jenkins설치
+
 ```
 1. apt-get update
 2. sudo apt-get install openjdk-11-jdk (뒤에 나오는 jenkins와 git의 연결에 8버전이면 버그가 있어서 11버전 추천, 무조건 8이상이어야함)
@@ -56,10 +58,11 @@ sudo passwd root ( root 비밀번호 변경 )
 8. sudo cat /var/lib/jenkins/secrets/initialAdminPassword (http://publicIP:8080으로 최초 접속시 필요한 Administrator password)
 ```
 
-* 젠킨스 포트변경?
+- 젠킨스 포트변경?
+
 ```
 1. sudo vi /etc/default/jenkins
-![젠킨스포트변경](images/jenkinsport1.png)
+<img src = "images/jenkinsport1.png">
 i (insert mode)
 HTTP_PORT = 바꿀포트번호
 
@@ -70,7 +73,7 @@ sudo ufw allow 9090
 ![젠킨스포트변경](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FwmWXN%2FbtryRspsX2J%2FlvKJjaakDdAkKv9qQwovAk%2Fimg.png)
 나는 없어서 new file이 열린다.
 
-3. 
+3.
 sudo chmod 777 /usr/lib/systemd/system/jenkins.service (777은 소유자(첫번째숫자), 그룹 사용자(두번째숫자), 기타사용자(마지막숫자) 모두가 읽기4 + 쓰기2 + 실행1 권한을 jenkins.service에 가진다)
 sudo vi /usr/lib/systemd/system/jenkins.service
 ![젠킨스포트변경](images/jenkinsport3.png)
@@ -81,6 +84,7 @@ sudo systemctl daemon-reload
 sudo service jenkins restart
 
 ```
+
 초기 화면이 나오면 설치 8 : sudo cat /var/lib/jenkins/secrets/initialAdminPassword 으로 password를 복사해서 붙여넣는다.
 -> install suggested plugins
 -> 계정, 암호, 이름, 이메일 주소 넣고
@@ -117,7 +121,8 @@ service mysql restart
 
 이제 workbench에 가서 publicIp와 username, pwd로 서버내의 mysql에 접속할수있다!
 
-* 팁
+- 팁
+
 ```
 ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' -> mysql 서버가 켜져있는지 확인
 
@@ -133,7 +138,7 @@ service mysql status (mysql 상태확인)
 #### Nginx설치
 
 ```
-sudo apt install nginx 
+sudo apt install nginx
 sudo find / -name nginx.conf (nginx.conf 위치 찾기)
 cd 나온경로
 
@@ -186,7 +191,7 @@ sudo iptables -I INPUT 1 -p tcp --dport 80-j ACCEPT (방화벽 80포트 허가)
 
 ### 번외 : nodejs와 git설치
 
-* NodeJs설치
+- NodeJs설치
 
 nodejs와 npm은 최신버전으로 설치해야한다!
 또한 깃에 연결된 jenkins가 가져오는 파일들은 사용자가 jenkins이기 때문에 sudo su jenkins로 해서 nodejs와 npm을 최신버전으로 설치해야한다
@@ -201,14 +206,16 @@ nodejs와 npm은 최신버전으로 설치해야한다!
 
 ```
 
-* 에러 팁
+- 에러 팁
+
 ```
 
 sh: 1: node: Permission denied 와 같은 err가 나면 사용자를 jenkins로 변경하고 nodejs와 npm버전을 확인해보자
 
 ```
 
-* git설치
+- git설치
+
 ```
 
 1. sudo apt-get update (설치 전후로 반드시 update!)
@@ -222,9 +229,7 @@ sh: 1: node: Permission denied 와 같은 err가 나면 사용자를 jenkins로 
 
 ---
 
-
 ## Jenkins와 Gitlab 연결
-
 
 깃랩연결은 ssh연결과 accessToken연결 두가지가 있다
 나는 accessToken으로 한다.
@@ -237,8 +242,8 @@ jenkins프로젝트 생성, Build Triggers에 Build when a change is pushed to G
 그리고 발급받은 accessToken은 jenkins 소스 코드 관리의 Repository URL에 넣는다.
 https://safers_repository:accessToken@gitlab repository url
 
+연결이 완료되면 Build의 Execute shell을 작성하자
 
- 연결이 완료되면 Build의 Execute shell을 작성하자
 ```
 echo 'jenkins build started...'
 
@@ -262,10 +267,11 @@ else
  echo Mybuddy-0.0.1-SNAPSHOT.jar process killed forcefully, process id $pid.
 fi
 ```
+
 빌드 후 조치
 Post build task
 Log text : BUILD SUCCESS
-Script : 
+Script :
 BUILD_ID=dontKillMe
 sudo nohup java -jar /var/lib/jenkins/workspace/ssafyD208/backend-web/build/libs/Mybuddy-0.0.1-SNAPSHOT.jar & (백그라운드에서도 실행)
 echo $!
@@ -275,29 +281,30 @@ Escalate script ececution status to job status 체크
 ---
 
 ## Nginx설정
+
 참고 : https://codechacha.com/ko/deploy-react-with-nginx/
 위에서 작성한 conf파일에 작성
 server{
- listen 80;
- root 젠킨스가 깃에서 받아온 프론트 파일을 빌드하고 생기는 build 폴더
- index index.html index.htm;
- location / { (프론트)
-    try_files $uri $uri/ /index.html;
- }
+listen 80;
+root 젠킨스가 깃에서 받아온 프론트 파일을 빌드하고 생기는 build 폴더
+index index.html index.htm;
+location / { (프론트)
+try_files $uri $uri/ /index.html;
+}
 
- location /mybuddy { (백)
-	proxy_pass https://localhost:9999; 
-	proxy_redirect off;
-	charset utf-8;
+location /mybuddy { (백)
+proxy_pass https://localhost:9999;
+proxy_redirect off;
+charset utf-8;
 
- 	proxy_set_header X-Real-IP $remote_addr;
-	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-	proxy-set_header X-Forwarded-Proto $scheme;
-	proxy_set_header X-NginX-Proxy true;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy-set_header X-Forwarded-Proto $scheme;
+proxy_set_header X-NginX-Proxy true;
 
-	proxy_set_header Host $http_host;
-	
- }
+    proxy_set_header Host $http_host;
+
+}
 }
 
 ---
@@ -307,7 +314,7 @@ server{
 참고 : https://velog.io/@kimmjieun/nginx%EC%97%90-SSLHTTPS-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0
 
 ```
-# sudo su #/var/www/html 안에서 
+# sudo su #/var/www/html 안에서
 # apt-get update
 # apt-get install software-properties-common
 # add-apt-repository universe
@@ -315,7 +322,7 @@ server{
 # apt-get update
 
 # apt install certbot
-# apt install python-certbot-nginx -> nginx와 사용할때 
+# apt install python-certbot-nginx -> nginx와 사용할때
 
 # certbot --nginx
 
@@ -335,12 +342,3 @@ Y
 # service cron restart
 
 ```
-
-
-
-
-
-
-
-
-
