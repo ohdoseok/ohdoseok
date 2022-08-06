@@ -62,7 +62,7 @@ sudo passwd root ( root 비밀번호 변경 )
 
 ```
 1. sudo vi /etc/default/jenkins
-<img src = "./images/jenkinsport1.png">
+<img src = "https://user-images.githubusercontent.com/61822619/183251720-49630ea1-c479-4bdb-8477-b1308bdda855.png"/>
 i (insert mode)
 HTTP_PORT = 바꿀포트번호
 
@@ -70,13 +70,13 @@ ESC -> :wq! (저장후 나감)
 sudo ufw allow 9090
 
 2. sudo vi /etc/sysconfig/jenkins
-![젠킨스포트변경](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FwmWXN%2FbtryRspsX2J%2FlvKJjaakDdAkKv9qQwovAk%2Fimg.png)
+<img src = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FwmWXN%2FbtryRspsX2J%2FlvKJjaakDdAkKv9qQwovAk%2Fimg.png"/>
 나는 없어서 new file이 열린다.
 
 3.
 sudo chmod 777 /usr/lib/systemd/system/jenkins.service (777은 소유자(첫번째숫자), 그룹 사용자(두번째숫자), 기타사용자(마지막숫자) 모두가 읽기4 + 쓰기2 + 실행1 권한을 jenkins.service에 가진다)
 sudo vi /usr/lib/systemd/system/jenkins.service
-![젠킨스포트변경](images/jenkinsport3.png)
+<img src = "https://user-images.githubusercontent.com/61822619/183251755-b2359999-d92a-4a49-9eca-a18f4653548b.png"/>
 sudo chmod 444 /usr/lib/systemd/system/jenkins.service (444는 모든 사용자가 읽기만 가능)
 
 이후에
@@ -115,7 +115,7 @@ sudo su
 cd /etc/mysql/mysql.conf.d
 vi mysqld.cnf
 bind-address를 찾아서 0.0.0.0으로 변경. (mysql의 외부접속 허용)
-![젠킨스포트변경](images/mysql.png)
+<img src ="https://user-images.githubusercontent.com/61822619/183251782-b7c59204-65d7-44cc-b706-7a4f5bb7e6e0.png"/>
 service mysql restart
 ```
 
@@ -236,7 +236,7 @@ sh: 1: node: Permission denied 와 같은 err가 나면 사용자를 jenkins로 
 jenkins와 gitlab을 연결해서 webhook을 걸기 위해서 git의 accesstoken과 jenkins의 시크릿토큰, 웹훅 url이 필요하다.
 jenkins프로젝트 생성, Build Triggers에 Build when a change is pushed to GitLab. GitLab webhook URL을 체크하면 gitlab 웹훅 url이 나온다.
 아래에 고급 버튼을 누르고 generate 누르면 시크릿 토큰이 나오는데 이 두가지를
-![webhook](images/webhook.png)
+<img src = "https://user-images.githubusercontent.com/61822619/183251783-84448225-dadb-4a0f-94b2-2814a4843613.png"/>
 에 넣어준다.
 
 그리고 발급받은 accessToken은 jenkins 소스 코드 관리의 Repository URL에 넣는다.
