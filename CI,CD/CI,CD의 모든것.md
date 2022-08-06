@@ -62,7 +62,10 @@ sudo passwd root ( root 비밀번호 변경 )
 
 ```
 1. sudo vi /etc/default/jenkins
+```
+
 <img src = "https://user-images.githubusercontent.com/61822619/183251720-49630ea1-c479-4bdb-8477-b1308bdda855.png"/>
+```
 i (insert mode)
 HTTP_PORT = 바꿀포트번호
 
@@ -70,14 +73,13 @@ ESC -> :wq! (저장후 나감)
 sudo ufw allow 9090
 
 2. sudo vi /etc/sysconfig/jenkins
-<img src = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FwmWXN%2FbtryRspsX2J%2FlvKJjaakDdAkKv9qQwovAk%2Fimg.png"/>
-나는 없어서 new file이 열린다.
+   <img src = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FwmWXN%2FbtryRspsX2J%2FlvKJjaakDdAkKv9qQwovAk%2Fimg.png"/>
+   나는 없어서 new file이 열린다.
 
-3.
-sudo chmod 777 /usr/lib/systemd/system/jenkins.service (777은 소유자(첫번째숫자), 그룹 사용자(두번째숫자), 기타사용자(마지막숫자) 모두가 읽기4 + 쓰기2 + 실행1 권한을 jenkins.service에 가진다)
-sudo vi /usr/lib/systemd/system/jenkins.service
-<img src = "https://user-images.githubusercontent.com/61822619/183251755-b2359999-d92a-4a49-9eca-a18f4653548b.png"/>
-sudo chmod 444 /usr/lib/systemd/system/jenkins.service (444는 모든 사용자가 읽기만 가능)
+3. sudo chmod 777 /usr/lib/systemd/system/jenkins.service (777은 소유자(첫번째숫자), 그룹 사용자(두번째숫자), 기타사용자(마지막숫자) 모두가 읽기4 + 쓰기2 + 실행1 권한을 jenkins.service에 가진다)
+   sudo vi /usr/lib/systemd/system/jenkins.service
+   <img src = "https://user-images.githubusercontent.com/61822619/183251755-b2359999-d92a-4a49-9eca-a18f4653548b.png"/>
+   sudo chmod 444 /usr/lib/systemd/system/jenkins.service (444는 모든 사용자가 읽기만 가능)
 
 이후에
 sudo systemctl daemon-reload
@@ -97,6 +99,7 @@ sudo service jenkins restart
 #### Mysql설치
 
 ```
+
 sudo apt-get update
 sudo apt-get install mysql-server (설치 중간중간에 password를 물어보는데 빈칸으로 두고 ok를 누르면 ubuntu 서버 비밀번호와 동기화 된다)
 sudo ufw allow mysql (외부 접속을 허용해주자)
@@ -105,17 +108,23 @@ sudo systemctl enable mysql ( ubuntu 서버가 재시작 되더라도 mysql이 �
 sudo mysql -u root -p (root로 접속, 비밀번호는 동일)
 mysql>
 use mysql
-ALTER USER 'root'@'localhost' IDENTIFIED BY '바꿀비밀번호';    or    ALTER user 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '바꿀 비밀번호'; (비밀번호는 반드시 바꿔야 하고 굉장히 어렵게 해야 해킹당하지않는다)
+ALTER USER 'root'@'localhost' IDENTIFIED BY '바꿀비밀번호'; or ALTER user 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '바꿀 비밀번호'; (비밀번호는 반드시 바꿔야 하고 굉장히 어렵게 해야 해킹당하지않는다)
 flush privileges; (변경사항 저장)
-create user '사용자 계정명'@'%' identified by '비밀번호'  (%는 사용자 계정을 허용하는 접속 ip이다)
+create user '사용자 계정명'@'%' identified by '비밀번호' (%는 사용자 계정을 허용하는 접속 ip이다)
 SELECT User, Host, authentication_string FROM mysql.user; (계정이 만들어졌나 확인가능)
-GRANT ALL PRIVILEGES ON *.* to 만든계정이름@'%'; (모든권한을 모든db에 허용, 정말 조심해야함 !! 꼭 비밀번호는 어렵게!!!)
+GRANT ALL PRIVILEGES ON _._ to 만든계정이름@'%'; (모든권한을 모든db에 허용, 정말 조심해야함 !! 꼭 비밀번호는 어렵게!!!)
 exit
 sudo su
 cd /etc/mysql/mysql.conf.d
 vi mysqld.cnf
 bind-address를 찾아서 0.0.0.0으로 변경. (mysql의 외부접속 허용)
+
+```
+
+```
+
 <img src ="https://user-images.githubusercontent.com/61822619/183251782-b7c59204-65d7-44cc-b706-7a4f5bb7e6e0.png"/>
+```
 service mysql restart
 ```
 
@@ -236,8 +245,10 @@ sh: 1: node: Permission denied 와 같은 err가 나면 사용자를 jenkins로 
 jenkins와 gitlab을 연결해서 webhook을 걸기 위해서 git의 accesstoken과 jenkins의 시크릿토큰, 웹훅 url이 필요하다.
 jenkins프로젝트 생성, Build Triggers에 Build when a change is pushed to GitLab. GitLab webhook URL을 체크하면 gitlab 웹훅 url이 나온다.
 아래에 고급 버튼을 누르고 generate 누르면 시크릿 토큰이 나오는데 이 두가지를
+
 <img src = "https://user-images.githubusercontent.com/61822619/183251783-84448225-dadb-4a0f-94b2-2814a4843613.png"/>
 에 넣어준다.
+```
 
 그리고 발급받은 accessToken은 jenkins 소스 코드 관리의 Repository URL에 넣는다.
 https://safers_repository:accessToken@gitlab repository url
