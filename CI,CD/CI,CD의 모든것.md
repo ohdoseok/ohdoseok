@@ -145,6 +145,14 @@ service mysql restart
 
 ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' -> mysql 서버가 켜져있는지 확인
 
+dpkg: error processing package mysql-server-8.0 (--configure):
+ installed mysql-server-8.0 package post-installation script subprocess returned error exit status 2
+-> (캐시정리하고 설치)
+sudo apt purge mysql-client-5.7 mysql-client-core-5.7 mysql-common mysql-server-5.7 mysql-server-core-5.7 mysql-server
+sudo apt update && sudo apt dist-upgrade && sudo apt autoremove && sudo apt -f install
+sudo apt install mysql-server
+
+
 service mysql stop (mysql 중지)
 service mysql start (mysql 시작)
 service mysql restart (mysql 재시작)
@@ -283,7 +291,7 @@ if [[ $pid == "" ]]
 then
  echo MyBuddy-0.0.1-SNAPSHOT.jar is not running
 else
- sudo kill -9 $pid
+ sudo kill -9 $pid (kill -15는 해당 프로그램의 X[닫기] 버튼을 눌러 종료시키는 것이고 kill -9는 작업 관리자에서 종료를 시키는 것이다.)
  echo MyBuddy-0.0.1-SNAPSHOT.jar process killed forcefully, process id $pid.
 fi
 
@@ -310,27 +318,42 @@ Escalate script ececution status to job status 체크
 
 ```
 위에서 작성한 conf파일에 작성
-server{
-listen 80;
-root 젠킨스가 깃에서 받아온 프론트 파일을 빌드하고 생기는 build 폴더
-index index.html index.htm;
-location / { (프론트)
-try_files $uri $uri/ /index.html;
-}
 
-location /mybuddy { (백)
-proxy_pass https://localhost:9999;
-proxy_redirect off;
-charset utf-8;
+server {
 
-proxy_set_header X-Real-IP $remote_addr;
-proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy-set_header X-Forwarded-Proto $scheme;
-proxy_set_header X-NginX-Proxy true;
+  listen 80 default_server;
+  listen [::]:80 default_server;
 
+  root   ~build;
+  index  index.html index.htm;
+  server_name public_IP;
+
+
+  location / {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
+    proxy_set_header X-Forwarded-Proto https;
+    try_files $uri /index.html;
+  }
+  location /api{
+        proxy_pass http://localhost:포트번호/api/;
+        proxy_redirect off;
+        charset utf-8;
 
-}
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-NginX-Proxy true;
+  }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/ip주소/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/ip주소/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
 }
 ```
 
