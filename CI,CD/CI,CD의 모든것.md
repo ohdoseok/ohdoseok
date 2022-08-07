@@ -65,25 +65,38 @@ sudo passwd root ( root 비밀번호 변경 )
 ```
 
 <img src = "https://user-images.githubusercontent.com/61822619/183251720-49630ea1-c479-4bdb-8477-b1308bdda855.png"/>
+
 ```
 i (insert mode)
 HTTP_PORT = 바꿀포트번호
 
 ESC -> :wq! (저장후 나감)
 sudo ufw allow 9090
+```
 
+```
 2. sudo vi /etc/sysconfig/jenkins
-   <img src = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FwmWXN%2FbtryRspsX2J%2FlvKJjaakDdAkKv9qQwovAk%2Fimg.png"/>
-   나는 없어서 new file이 열린다.
+```
 
+나는 없어서 new file이 열린다.
+
+   <img src = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FwmWXN%2FbtryRspsX2J%2FlvKJjaakDdAkKv9qQwovAk%2Fimg.png"/>
+
+```
 3. sudo chmod 777 /usr/lib/systemd/system/jenkins.service (777은 소유자(첫번째숫자), 그룹 사용자(두번째숫자), 기타사용자(마지막숫자) 모두가 읽기4 + 쓰기2 + 실행1 권한을 jenkins.service에 가진다)
-   sudo vi /usr/lib/systemd/system/jenkins.service
+sudo vi /usr/lib/systemd/system/jenkins.service
+```
+
    <img src = "https://user-images.githubusercontent.com/61822619/183251755-b2359999-d92a-4a49-9eca-a18f4653548b.png"/>
-   sudo chmod 444 /usr/lib/systemd/system/jenkins.service (444는 모든 사용자가 읽기만 가능)
+
+```
+sudo chmod 444 /usr/lib/systemd/system/jenkins.service (444는 모든 사용자가 읽기만 가능)
 
 이후에
 sudo systemctl daemon-reload
 sudo service jenkins restart
+
+```
 
 ```
 
@@ -93,6 +106,7 @@ sudo service jenkins restart
 -> Jenkins관리 -> 플러그인 관리 -> gitlab 설치, nodejs 설치, post build task 설치
 
 일단 여기까지 하고 나머지 설치하자
+```
 
 ---
 
@@ -108,11 +122,11 @@ sudo systemctl enable mysql ( ubuntu 서버가 재시작 되더라도 mysql이 �
 sudo mysql -u root -p (root로 접속, 비밀번호는 동일)
 mysql>
 use mysql
-ALTER USER 'root'@'localhost' IDENTIFIED BY '바꿀비밀번호'; or ALTER user 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '바꿀 비밀번호'; (비밀번호는 반드시 바꿔야 하고 굉장히 어렵게 해야 해킹당하지않는다)
+ALTER USER 'root'@'localhost' IDENTIFIED BY '바꿀비밀번호'; or ALTER user 'root'@'localhost' IDENTIFIED WITH mysql\*native_password BY '바꿀 비밀번호'; (비밀번호는 반드시 바꿔야 하고 굉장히 어렵게 해야 해킹당하지않는다)
 flush privileges; (변경사항 저장)
-create user '사용자 계정명'@'%' identified by '비밀번호' (%는 사용자 계정을 허용하는 접속 ip이다)
+create user '사용자 계정명'@'%' identified by '비밀번호'; (%는 사용자 계정을 허용하는 접속 ip이다)
 SELECT User, Host, authentication_string FROM mysql.user; (계정이 만들어졌나 확인가능)
-GRANT ALL PRIVILEGES ON _._ to 만든계정이름@'%'; (모든권한을 모든db에 허용, 정말 조심해야함 !! 꼭 비밀번호는 어렵게!!!)
+GRANT ALL PRIVILEGES ON \*.\* to '만든계정이름'@'%'; (모든권한을 모든db에 허용, 정말 조심해야함 !! 꼭 비밀번호는 어렵게!!!)
 exit
 sudo su
 cd /etc/mysql/mysql.conf.d
@@ -121,9 +135,8 @@ bind-address를 찾아서 0.0.0.0으로 변경. (mysql의 외부접속 허용)
 
 ```
 
-```
-
 <img src ="https://user-images.githubusercontent.com/61822619/183251782-b7c59204-65d7-44cc-b706-7a4f5bb7e6e0.png"/>
+
 ```
 service mysql restart
 ```
@@ -133,6 +146,7 @@ service mysql restart
 - 팁
 
 ```
+
 ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' -> mysql 서버가 켜져있는지 확인
 
 service mysql stop (mysql 중지)
@@ -147,6 +161,7 @@ service mysql status (mysql 상태확인)
 #### Nginx설치
 
 ```
+
 sudo apt install nginx
 sudo find / -name nginx.conf (nginx.conf 위치 찾기)
 cd 나온경로
@@ -167,12 +182,12 @@ sudo touch /etc/nginx/sites-available/아무거나.conf (react 프로젝트의 b
 
 sudo vi /etc/nginx/sites-available/아무거나.conf
 server {
-  listen 80;
-  location / {
-    root   /home/hanumoka/examples/myapp/build; (빌드경로)
-    index  index.html index.htm;
-    try_files $uri /index.html;
-  }
+listen 80;
+location / {
+root /home/hanumoka/examples/myapp/build; (빌드경로)
+index index.html index.htm;
+try_files $uri /index.html;
+}
 }
 
 sudo ln -s /etc/nginx/sites-available/myapp.conf /etc/nginx/sites-enabled/myapp.conf (siete-enabled 폴더에 심볼릭 링크를 만들자)
@@ -206,11 +221,12 @@ nodejs와 npm은 최신버전으로 설치해야한다!
 또한 깃에 연결된 jenkins가 가져오는 파일들은 사용자가 jenkins이기 때문에 sudo su jenkins로 해서 nodejs와 npm을 최신버전으로 설치해야한다
 
 ```
+
 1. curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_16_setup.sh (설치 스크립트를 다운로드합니다)(원하는 버전이 있다면 16자리에 넣자 ex)14,15 등 )
 2. sudo bash nodesource_setup.sh (그 다음 다운로드한 스크립트를 실행시킵니다)(스크립트를 실행하면 ppa 등록이 완료됩니다.)
 3. sudo apt install nodejs (nodejs설치)
 4. sudo apt install build-essential (추가적으로 npm으로 패키지를 설치할 때 컴파일이 필요한 경우가 있으니 각종 빌드 툴이 포함된 build-essential 패키지가 설치되어 있지 않다면 설치해줍니다)
-출처 : https://kingofbackend.tistory.com/166
+   출처 : https://kingofbackend.tistory.com/166
 5. sudo npm install -g npm (npm 최신버전으로 upgrade)
 
 ```
@@ -261,39 +277,44 @@ echo 'jenkins build started...'
 ### frontend build ###
 cd frontend-web
 npm install
-CI= npm run build:dev (eslint 무시)
+CI= npm run build
 
 ### backend build ###
 cd ..
 sudo chmod -R 777 backend-web
 cd backend-web
-./gradlew clean build
-
-pid=$(ps -eaf | grep Mybuddy-0.0.1-SNAPSHOT.jar | grep -v "grep" | grep -v $0 | awk '{print $2}')
+sudo ./gradlew clean build
+pid=$(ps -eaf | grep MyBuddy-0.0.1-SNAPSHOT.jar | grep -v "grep" | grep -v $0 | awk '{print $2}')
 if [[ $pid == "" ]]
 then
- echo Mybuddy-0.0.1-SNAPSHOT.jar is not running
+ echo MyBuddy-0.0.1-SNAPSHOT.jar is not running
 else
  sudo kill -9 $pid
- echo Mybuddy-0.0.1-SNAPSHOT.jar process killed forcefully, process id $pid.
+ echo MyBuddy-0.0.1-SNAPSHOT.jar process killed forcefully, process id $pid.
 fi
+
 ```
 
+```
 빌드 후 조치
 Post build task
 Log text : BUILD SUCCESS
 Script :
 BUILD_ID=dontKillMe
-sudo nohup java -jar /var/lib/jenkins/workspace/ssafyD208/backend-web/build/libs/Mybuddy-0.0.1-SNAPSHOT.jar & (백그라운드에서도 실행)
+sudo nohup java -jar /var/lib/jenkins/workspace/ssafyD208/backend-web/build/libs/MyBuddy-0.0.1-SNAPSHOT.jar &
 echo $!
 
 Escalate script ececution status to job status 체크
+
+```
 
 ---
 
 ## Nginx설정
 
 참고 : https://codechacha.com/ko/deploy-react-with-nginx/
+
+```
 위에서 작성한 conf파일에 작성
 server{
 listen 80;
@@ -317,6 +338,7 @@ proxy_set_header X-NginX-Proxy true;
 
 }
 }
+```
 
 ---
 
@@ -338,18 +360,26 @@ proxy_set_header X-NginX-Proxy true;
 # certbot --nginx
 
 
-Enter email
-A
-Y
-2
+디버깅을 위한 로그, 긴급한 사항 혹은 보안 사항 등을 전달할 이메일을 입력해달라는 내용, 이메일을 입력한 후 엔터 Enter email
 
-# certbot certonly --nginx
+약관을 읽고 SSL 을 사용하기 위한 서버 등록을 승낙해야 한다는 이야기. Y 입력한 후 엔터 Y
 
-1 2
+위에서 입력했던 이메일을 재단에도 공유해서 재단의 뉴스, 캠페인, 디지털 자유운동 지원 방법 등을 받을 것인지에 대한 내용. Y
+
+어떤 도메인에 HTTPS를 적용시킬지 물어본다. 그냥 엔터를 누르면 목록에 뜬 모든 도메인에 HTTPS를 적용시켜주고, `1 3` 이런식으로 숫자를 띄어서 엔터를 누르면 해당 도메인만 HTTPS를 적용시켜 준다. Enter
+
+sudo certbot --nginx -d 도메인 (인증서 설치)
+
+이메일 등록과, 약관에 동의하시면 기존 http 연결을 어떻게 설정할 것인가에 대한 질문이 나타나게 됩니다. 아래 목록을 확인하시고 원하시는 설정을 입력해주세요.
+* 1을 입력한다면 http 연결을 https로 리다이렉트 하지 않습니다.
+* 2를 입력한다면 https 연결을 https 로 리다이렉트 시킵니다.
 2
 
 # vi /etc/crontab (자동갱신)
 0  0 * * * root certbot -q renew --nginx >> /var/log/letscript.renewal.log 2>&1 #추가
 # service cron restart
 
+
+수동 리다이렉트
+참고 : https://velog.io/@newon-seoul/Certbot%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-HTTPS-%EC%A0%81%EC%9A%A9%EA%B3%BC-%EB%A6%AC%EB%8B%A4%EC%9D%B4%EB%A0%89%ED%8A%B8ubuntu-nginx
 ```
