@@ -96,10 +96,6 @@ sudo chmod 444 /usr/lib/systemd/system/jenkins.service (444는 모든 사용자�
 sudo systemctl daemon-reload
 sudo service jenkins restart
 
-```
-
-```
-
 초기 화면이 나오면 설치 8 : sudo cat /var/lib/jenkins/secrets/initialAdminPassword 으로 password를 복사해서 붙여넣는다.
 -> install suggested plugins
 -> 계정, 암호, 이름, 이메일 주소 넣고
@@ -260,11 +256,9 @@ sh: 1: node: Permission denied 와 같은 err가 나면 사용자를 jenkins로 
 나는 accessToken으로 한다.
 jenkins와 gitlab을 연결해서 webhook을 걸기 위해서 git의 accesstoken과 jenkins의 시크릿토큰, 웹훅 url이 필요하다.
 jenkins프로젝트 생성, Build Triggers에 Build when a change is pushed to GitLab. GitLab webhook URL을 체크하면 gitlab 웹훅 url이 나온다.
-아래에 고급 버튼을 누르고 generate 누르면 시크릿 토큰이 나오는데 이 두가지를
+아래에 고급 버튼을 누르고 generate 누르면 시크릿 토큰이 나오는데 이 두가지를 넣어준다.
 
 <img src = "https://user-images.githubusercontent.com/61822619/183251783-84448225-dadb-4a0f-94b2-2814a4843613.png"/>
-에 넣어준다.
-```
 
 그리고 발급받은 accessToken은 jenkins 소스 코드 관리의 Repository URL에 넣는다.
 https://safers_repository:accessToken@gitlab repository url
