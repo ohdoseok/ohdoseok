@@ -49,7 +49,8 @@ sudo passwd root ( root 비밀번호 변경 )
 
 ```
 1. apt-get update
-2. sudo apt-get install openjdk-11-jdk (뒤에 나오는 jenkins와 git의 연결에 8버전이면 버그가 있어서 11버전 추천, 무조건 8이상이어야함)
+2. sudo apt-get install openjdk-8-jdk (자신의 프로젝트에 맞는 버전으로 후에 변경하는 방법도 기재되어있다.)
+~~openjdk-11-jdk (뒤에 나오는 jenkins와 git의 연결에 8버전이면 버그가 있어서 11버전 추천, 무조건 8이상이어야함)~~
 3. wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -  (repository키 추가)
 4. sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' (sources.list에 추가)
 5. sudo apt-get update && apt-get install jenkins (jenkins를 apt-get 으로 설치)
@@ -400,3 +401,38 @@ sudo certbot --nginx -d 도메인 (인증서 설치)
 수동 리다이렉트
 참고 : https://velog.io/@newon-seoul/Certbot%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-HTTPS-%EC%A0%81%EC%9A%A9%EA%B3%BC-%EB%A6%AC%EB%8B%A4%EC%9D%B4%EB%A0%89%ED%8A%B8ubuntu-nginx
 ```
+
+### 리눅스 커멘트!
+
+- 프로세스 아이디 알아내기
+
+```
+ps -ef
+```
+
+- 프로세스 종료
+
+```
+kill -9 프로세스아이디
+```
+
+- 백그라운드에서 돌아가는 파일의 로그를 확인하고싶을때
+
+```
+nohup 실행파일경로와함께 > 경로와 로그파일이름.log 2>&1 &
+```
+
+- 설치된 자바 리스트 확인
+
+```
+update-alternatives --list java
+```
+
+- 버전을 변경한다고 하면 아래 명령어 2가지를 실행한후 변경을 원하는 자바와 자바c의 번호를 입력한다
+
+```
+sudo update-alternatives --config java
+sudo update-alternatives --config javac
+```
+
+참고 : update-alternatives에 대해서 알고싶다면 https://mech2cs.tistory.com/entry/Ubuntu-2004-%EC%9E%90%EB%B0%94-JDK-%EC%84%A4%EC%B9%98-%EB%B0%8F-%EB%B2%84%EC%A0%84-%EA%B4%80%EB%A6%AC
