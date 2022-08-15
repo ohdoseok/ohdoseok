@@ -1,17 +1,17 @@
 memberID 로 들어온다 => 부모
-socket.ids = memberID
-socket.types = member
-socket.name = 부모 본인의 이름
+//socket.ids = memberID
+//socket.types = member
+//socket.name = 부모 본인의 이름
 
-client[] = { id : socket.id, childrenID : childrenID, name : 아이의이름 }
+client[] = { id : socket.id, childrenID : childrenID, name : 아이의이름 , Pname : 부모본인의 이름, mid : memberID}
 
 -----------------------------------------------------------
 
 childrenID 로 들어온다 => 아이
-socket.ids = childrenID
-socket.types = children
-socket.name = 아이 이름
+//socket.ids = childrenID
+//socket.types = children
+//socket.name = 아이 이름
 
-client[] = { id : socket.id, memberID : memberID, name : 자신의 이름}
+client[] = { id : socket.id, memberID : memberID, name : 자신의 이름, cid : childrenID}
 
 

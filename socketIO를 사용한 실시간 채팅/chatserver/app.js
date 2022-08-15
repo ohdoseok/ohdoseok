@@ -44,19 +44,23 @@ io.on('connection', (socket) => {
     //들어온 사람이 부모님이면
     if(id && id.memberID ){
       
-      socket.ids = id.memberID;
-      socket.types = "member";
+      // socket.ids = id.memberID;
+      clientInfo.types = "member";
+      clientInfo.mid = id.memberID;
+      console.log(clientInfo.types);
       clientInfo.id = socket.id;
 
     
 
       //db연결
       // connection.connect()
-      connection.query(`SELECT childrenID, name from children where memberID = ${id.memberID}`, (error, rows, fields) => {
+      connection.query(`SELECT c.childrenID, c.name, m.name as Pname from children as c join member as m on c.memberID = m.memberID where m.memberID = ${id.memberID}`, (error, rows, fields) => {
         if (error) throw error;
         console.log('User info is: ', rows);
         // rows를 돌면서 나온 모든 아이의 childrenID와 이름을 clientInfo에 담고 clients에 푸쉬한다. 그러면 다른정보는 모두 동일하고 아이의 id와 아이의 이름만 다른 객체가 clients에 저장된다.
         rows.forEach(element => {
+          clientInfo.Pname = element.Pname;
+          console.log(element.Pname + '님이 접속했습니다.')
           clientInfo.childrenID = element.childrenID;
           clientInfo.name = element.name;
           clients.push(clientInfo);
@@ -67,19 +71,20 @@ io.on('connection', (socket) => {
             //현재 접속해있는 child의 부모 id와 현재 새로 들어온 사람(부모) id가 같다면
             if(child.memberID == id.memberID){
               //아이의 socketid로 이름을 불러준다.
-              socket.to(child.id).emit('newUser',{message : `안녕 ${child.name} 야~!!!`});
+              socket.to(child.id).emit('newUser',{message : `안녕 ${child.name}야 ${element.Pname} 이란다`});
             }
           }
+          clientInfo = new Object;
         });
       });
       
-      connection.query(`SELECT name from member where memberID = ${id.memberID}`, (error, rows, fields) => {
-        console.log(rows);
-        rows.forEach(element => {
-          socket.name = element.name;
-          console.log(element.name + '님이 접속했습니다.')
-        });
-      });
+      // connection.query(`SELECT name from member where memberID = ${id.memberID}`, (error, rows, fields) => {
+      //   console.log(rows);
+      //   rows.forEach(element => {
+      //     socket.name = element.name;
+      //     console.log(element.name + '님이 접속했습니다.')
+      //   });
+      // });
 
 
       
@@ -89,9 +94,10 @@ io.on('connection', (socket) => {
     //들어온 사람이 아이면
     else if(id && id.childrenID){
       
-      socket.ids = id.childrenID;
-      socket.types = "children";
+      // socket.ids = id.childrenID;
+      clientInfo.types = "children";
       clientInfo.id = socket.id;
+      clientInfo.cid = id.childrenID;
       
       //부모님은 하나만 나옴
       // connection.connect();
@@ -103,21 +109,26 @@ io.on('connection', (socket) => {
           clientInfo.memberID = element.memberID;
           clientInfo.name = element.name;
           console.log(element.name + '님이 접속했습니다.')
+          clients.forEach(element2 => {
+            if(id.childrenID == element2.childrenID){
+              socket.to(element2.id).emit('newUser',{message : `${element.name}님이 접속했습니다.`});
+            }
+          });
+          
         });
+        console.log(clientInfo);
+        clients.push(clientInfo);
+        clientInfo = new Object;
         
       });
-      clients.forEach(element => {
-        if(id.childrenID == element.childrenID){
-          socket.to(element.id).emit('newUser',{message : `${clientInfo.name}님이 접속했습니다.`});
-        }
-      });
-      connection.query(`SELECT name from children where childrenID = ${id.childrenID}`, (error, rows, fields) => {
-        rows.forEach(element => {
-          socket.name = element.name;
-        });
-      });
+      
+      // connection.query(`SELECT name from children where childrenID = ${id.childrenID}`, (error, rows, fields) => {
+      //   rows.forEach(element => {
+      //     socket.name = element.name;
+      //   });
+      // });
 
-      clients.push(clientInfo);
+      
 
       // connection.end();
 
@@ -131,37 +142,91 @@ io.on('connection', (socket) => {
   //아이면 아이의 id와 부모에게 보낼 msg가 들어있다.
   socket.on('chat message', (msg) => {
 
-    //부모가 아이에게
-    if(socket.types == "member"){
+    //부모라면?
+    if(msg && msg.memberID){
       clients.forEach(element => {
-        if(element.memberID == socket.ids){
-          socket.to(element.id).emit('chat message',{message: socket.name+' : '+ msg.message});
+        if(element.memberID == msg.memberID){
+          clients.forEach(element2 => {
+            if(element2.mid == msg.memberID){
+              console.log(element2.Pname);
+              socket.to(element.id).emit('chat message',{message: element2.Pname+' : '+ msg.message});
+            }
+          });
+          
+        }
+      });
+    }else if(msg && msg.childrenID){
+      clients.forEach(element => {
+        if(element.childrenID == msg.childrenID){
+          clients.forEach(element2 => {
+            if(element2.cid == msg.childrenID){
+              socket.to(element.id).emit('chat message',{message: element2.name+' : '+ msg.message});
+            }
+          });
+          
         }
       });
     }
-    //아이가 부모에게
-    else if(socket.types == "children"){
-      clients.forEach(element => {
-        if(element.childrenID == socket.ids){
-          socket.to(element.id).emit('chat message',{message : socket.name+' : '+msg.message});
-        }
-      });
-    }
+
+    // //부모가 아이에게
+    // if(socket.types == "member"){
+    //   console.log("부모가 아이에게");
+    //   clients.forEach(element => {
+    //     if(element.memberID == socket.ids){
+    //       socket.to(element.id).emit('chat message',{message: socket.name+' : '+ msg.message});
+    //     }
+    //   });
+    // }
+    // //아이가 부모에게
+    // else if(socket.types == "children"){
+    //   clients.forEach(element => {
+    //     if(element.childrenID == socket.ids){
+    //       socket.to(element.id).emit('chat message',{message : socket.name+' : '+msg.message});
+    //     }
+    //   });
+    // }
   });
   socket.on('disconnect', () => {
-    console.log('disconnected');
-    let name = null;
     clients.forEach(element => {
-      if(element.memberID == socket.ids){
-        socket.to(element.id).emit('disconnected',{message : socket.name+"님이 나갔습니다."});
+      //나간사람을 찾았다
+      console.log(socket.id);
+      if(element.id == socket.id){
+        clients.forEach(element2 => {
+          //나간사람이 자식이면
+          if(element.memberID && element.memberID == element2.mid){
+            socket.to(element2.id).emit('disconnected',{message : element.name+"님이 나갔습니다."});
+            console.log(element.name+"님이 나갔습니다.");
+          //나간사람이 부모라면
+          }else if(element.childrenID &&element.childrenID == element2.cid){
+            socket.to(element2.id).emit('disconnected',{message : element.Pname+"님이 나갔습니다."});
+            console.log(element.Pname+"님이 나갔습니다.");
+          }
+        });
+        for (let index = 0; index < clients.length; index++) {
+          if(clients[index].id == socket.id){
+            clients.splice(index,1);
+            break;
+          }
+        }
       }
-      
     });
-    for (let index = 0; index < clients.length; index++) {
-      if(clients[index].id == socket.id){
-        clients.splice(index,1);
-        break;
-      }
-    }
+
+
+
+
+    // console.log('disconnected');
+    // let name = null;
+    // clients.forEach(element => {
+    //   if(element.memberID == socket.ids){
+    //     socket.to(element.id).emit('disconnected',{message : socket.name+"님이 나갔습니다."});
+    //   }
+      
+    // });
+    // for (let index = 0; index < clients.length; index++) {
+    //   if(clients[index].id == socket.id){
+    //     clients.splice(index,1);
+    //     break;
+    //   }
+    // }
   });
 });
