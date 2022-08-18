@@ -339,24 +339,23 @@ Escalate script ececution status to job status 체크
 위에서 작성한 conf파일에 작성
 
 server {
-
   listen 80 default_server;
   listen [::]:80 default_server;
-
-  root   ~build;
+  root   /var/lib/jenkins/workspace/ssafyD208/frontend-web/build;
   index  index.html index.htm;
-  server_name public_IP;
-
+  server_name i7d208.p.ssafy.io;
 
   location / {
+   # root   /var/lib/jenkins/workspace/ssafyD208/frontend-web/build;
+   # index  index.html index.htm;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
     proxy_set_header X-Forwarded-Proto https;
     try_files $uri /index.html;
   }
-  location /api{
-        proxy_pass http://localhost:포트번호/api/;
+   location /mybuddy{
+        proxy_pass http://i7d208.p.ssafy.io:9999;
         proxy_redirect off;
         charset utf-8;
 
@@ -365,15 +364,26 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-NginX-Proxy true;
   }
+  location /socket.io{
+        proxy_pass http://i7d208.p.ssafy.io:4000;
+        proxy_redirect off;
+
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-NginX-Proxy true;
+
+  }
 
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/ip주소/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/ip주소/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/i7d208.p.ssafy.io/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/i7d208.p.ssafy.io/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
-
 }
+
+
 ```
 
 ---
