@@ -281,6 +281,9 @@ cd frontend-web
 npm install
 CI= npm run build
 
+
+
+
 ### backend build ###
 cd ..
 sudo chmod -R 777 backend-web
@@ -291,8 +294,24 @@ if [[ $pid == "" ]]
 then
  echo MyBuddy-0.0.1-SNAPSHOT.jar is not running
 else
- sudo kill -9 $pid (kill -15는 해당 프로그램의 X[닫기] 버튼을 눌러 종료시키는 것이고 kill -9는 작업 관리자에서 종료를 시키는 것이다.)
+ sudo kill -9 $pid
  echo MyBuddy-0.0.1-SNAPSHOT.jar process killed forcefully, process id $pid.
+fi
+
+### chat server build ###
+cd ..
+cd temp
+cd ServerForChat
+cd chatserver
+ls
+echo ls
+pid=$(ps -eaf | grep app.js | grep -v "grep" | grep -v $0 | awk '{print $2}')
+if [[ $pid == "" ]]
+then
+ echo app.js is not running
+else
+ sudo kill -9 $pid
+ echo app.js process killed forcefully, process id $pid.
 fi
 
 ```
@@ -302,9 +321,9 @@ fi
 Post build task
 Log text : BUILD SUCCESS
 Script :
-BUILD_ID=dontKillMe
-sudo nohup java -jar /var/lib/jenkins/workspace/ssafyD208/backend-web/build/libs/MyBuddy-0.0.1-SNAPSHOT.jar &
-echo $!
+sudo nohup java -jar /var/lib/jenkins/workspace/ssafyD208/backend-web/build/libs/MyBuddy-0.0.1-SNAPSHOT.jar > jenkinsMybuddy.log 2>&1 &
+
+sudo nohup node /var/lib/jenkins/workspace/ssafyD208/temp/ServerForChat/chatserver/app.js > nodeserver.log 2>&1 &
 
 Escalate script ececution status to job status 체크
 
