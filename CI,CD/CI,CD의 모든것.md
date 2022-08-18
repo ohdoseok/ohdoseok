@@ -49,8 +49,7 @@ sudo passwd root ( root 비밀번호 변경 )
 
 ```
 1. apt-get update
-2. sudo apt-get install openjdk-8-jdk (자신의 프로젝트에 맞는 버전으로 후에 변경하는 방법도 기재되어있다.)
-~~openjdk-11-jdk (뒤에 나오는 jenkins와 git의 연결에 8버전이면 버그가 있어서 11버전 추천, 무조건 8이상이어야함)~~
+2. sudo apt-get install openjdk-8-jdk (자신의 프로젝트에 맞는 버전으로 사용)
 3. wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -  (repository키 추가)
 4. sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' (sources.list에 추가)
 5. sudo apt-get update && apt-get install jenkins (jenkins를 apt-get 으로 설치)
