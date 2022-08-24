@@ -37,9 +37,53 @@ dispatcher servlet은 적합한 컨트롤러와 메소드를 찾아 요청을 �
 
 1. 클라이언트의 요청을 디스패처 서블릿이 받음
 2. 요청 정보를 통해 요청을 위임할 컨트롤러를 찾음
-3. 요청을 컨트롤럴로 위임할 핸들러 어댑터를 찾아서 전달함
+3. 요청을 컨트롤러로 위임할 핸들러 어댑터를 찾아서 전달함
 4. 핸들러 어댑터가 컨트롤러로 요청을 위임함
 5. 비지니스 로직을 처리함
 6. 컨트롤러가 반환값을 반환함
 7. HandlerAdapter가 반환값을 처리함
 8. 서버의 응답을 클라이언트로 반환함
+
+#### 1. 클라이언트의 요청을 디스패처 서블릿이 받음
+
+![img](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FoN96r%2Fbtrw7SYEpgr%2FlKLp5nqEZUJR32GoPc9bwk%2Fimg.png)
+서블릿 컨텍스트(웹 컨텍스트) 에서 필터들을 지나 스프링 컨텍스트에서 디스패처 서블릿이 가장 먼저 요청을 받게 된다.
+
+#### 2. 요청 정보를 통해 요청을 위임할 컨트롤러를 찾음
+
+디스패처 서블릿은 요청을 처리할 컨트롤러를 찾고 해당 메소드를 호출해야한다.
+HandlerMapping의 구현체중 하나인 RequestMappingHandlerMapping은 @Controller로 작성된 모든 컨트롤러 bean을 parsing해서 HashMap으로 (요청정보, 처리할 대상)을 관리한다.
+정확하게는 컨트롤러가 아닌, 요청에 매핑되는 컨트롤러와 해당 메소드 등을 갖는 **HandlerMethod** 객체를 찾는다. 그래서 HandlerMapping은 요청이 오면 Http Method, URI 등을 사용해 Key 객체인 요청 정보를 만들고, Value인 요청을 처리할 HandlerMethod를 찾아 HandlerMethodExecutionChain으로 감싸서 반환한다.
+**HandlerMethodExecutionChain으로 감싸는 이유**는 컨트롤러로 요청을 넘겨주기 전에 처리해야 하는 **인터셉터 등을 포함하기 위해서** 이다.
+
+#### 3. 요청을 컨트롤러로 위임할 핸들러 어댑터를 찾아서 전달함
+
+디스패처 서블릿은 컨트롤러로 요청을 직접 위임하는 것이 아니라 **HandlerAdapter를 통해 컨트롤러로 요청을 위임**한다.
+이때 어댑터 인터페이스를 통해 컨트롤러를 호출하는 이유는 **컨트롤러의 구현 방식이 다양**하기 때문이다.
+스프링은 HandlerAdapter라는 어댑터 인터페이스를 통해 어댑터 패턴을 적용함으로써 컨트롤러의 구현 방식에 상관없이 요청을 위임한다.
+
+#### 4. 핸들러 어댑터가 컨트롤러로 요청을 위임함
+
+핸들러 어댑터가 컨트롤러로 요청을 넘기기 전에 공통적인 **전/후처리 과정**이 필요하다. 대표적으로 **인터셉터**들을 포함해 요청시에 **@RequestParam, @RequestBody 등을 처리하기 위한 ArgumentResolvver들과 응답시에 ResponseEntity의 Body를 Json으로 직렬화 하는 등** 의 처리를 하는 **ReturnValueHandler 등이 어댑터에서 컨트롤러로 전달되기 전에 처리된다.**
+그리고 컨트롤러의 메소드를 호출하도록 요청을 위임한다.
+
+#### 5. 비지니스 로직을 처리함
+
+이후에 컨트롤러는 서비스를 호출하고 우리가 작성한 비지니스 로직들이 진행된다.
+
+#### 6. 컨트롤러가 반환값을 반환함
+
+비지니스 로직이 처리된 후에는 컨트롤러가 반환값을 반환한다. 요즘 프론트엔드와 백엔드를 분리하고 MSA(micro service architecture)로 가고 있는 시대에서는 주로 ResponseEntity를 반환한다.
+
+#### 7. HandlerAdapter가 반환값을 처리함
+
+HandlerAdapter는 컨트롤러로부터 받은 응답을 응 처리기인 ReturnValueHandler가 후처리한 후에 디스패처 서블릿으로 돌려준다.
+만약 컨트롤러가 ResponseEntity를 반환하면 HttpEntityMethodProcessor가 MessageConverter를 사용해 응답 객체를 직렬화(Json)하고 응답 상태(HttpStatus)를 설정한다.
+
+#### 8. 서버의 응답을 클라이언트로 반환함
+
+디스패처 서블릿을 통해 반환되는 응답은 다시 필터들을 거쳐 클라이언트에게 반환된다.
+
+---
+
+참고 : https://mangkyu.tistory.com/18
