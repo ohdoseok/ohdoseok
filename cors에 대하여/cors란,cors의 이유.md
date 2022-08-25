@@ -8,7 +8,7 @@ Cross-Origin Resource Sharing
 교차 출처 리소스 공유를 제한, 또 다른 정책으로 SOP(Same-Origin Policy) SOP는 같은 출처에서만 리소스를 공유할 수 있는데 이런경우는 굉장히 드문 경우라서 CORS정책을 지킨 리소스 요청은 허용한다.
 
 출처 Origin이란?
-!(img)[https://evan-moon.github.io/static/e25190005d12938c253cc72ca06777b1/d9199/uri-structure.png]
+![img](https://evan-moon.github.io/static/e25190005d12938c253cc72ca06777b1/d9199/uri-structure.png)
 출처는 Protocol과 Host, 포트번호까지 모두 합친것
 브라우저의 개발자도구에서 Location객체가 가지고있는 origin에 접근함으로 쉽게 어플리케이션이 실행되는 출처를 알아낼 수 있다. -> console.log(location.origin) : http://~
 
@@ -35,7 +35,7 @@ CORS가 동작하는 방식은 한 가지가 아니라 세 가지의 시나리�
     이 시나리오에 해당하는 상황일 때 브라우저는 요청을 한번에 보내지 않고 예비 요청과 본 요청으로 나누어서 서버로 전송된다.
     이때 브라우저가 본 요청을 보내기 전에 보내는 예비요청을 preflight라고 부르는 것이며, 이 예비 요청에는 HTTP 메소드 중 OPTIONS 메소드가 사용된다.
     예비 요청의 역할은 본 요청을 보내기 전에 브라우저 스스로 이 요청을 보내는 것이 안전한지 확인하는 것이다.
-    !(img)[https://evan-moon.github.io/static/c86699252752391939dc68f8f9a860bf/d9199/cors-preflight.png]
+    ![img](https://evan-moon.github.io/static/c86699252752391939dc68f8f9a860bf/d9199/cors-preflight.png)
     js에서 fetch API를 사용하여 브라우저에게 리소스를 받아오라는 명령을 내린다, -> 브라우저는 서버에게 예비 요청을 보낸다 -> 서버는 이 예비 요청에 대한 응답으로 현재 자신이 어떤 것들을 허용하고, 어떤 것들을 금지하고 있는지에 대한 정보를 응답 헤더에 담아서 브라우저에게 보낸다 -> 브라우저는 자신이 보낸 예비 요청과 서버가 응답에 담아준 허용 정책을 비교한 후, 이 요청을 보내는 것이 안전하다고 판단되면 같은 엔드포인트로 다시 본 요청을 보내게 된다. -> 서버가 본 요청에 대한 응답을 하면 브라우저는 최종적으로 이 응담 데이터를 자바스크립트로 넘겨준다.
 
     실제로 브라우저가 요청한 예비 요청을 보면 Origin에 대한 정보 뿐만 아니라 자신이 에비 요청 이후에 보낼 본 요청에 대한 다른 정보들도 함께 포함되어 있다.
@@ -48,7 +48,7 @@ CORS가 동작하는 방식은 한 가지가 아니라 세 가지의 시나리�
 
 2.  Simple Request
     모든 경우가 preflight request인 경우는 아니다. 특정 조건을 만족하면 예비 요청없이 **본 요청으로만 CORS 정책 위반 여부를 검사하기도 하는데 simple request**이다.
-    !(img)[https://evan-moon.github.io/static/d8ed6519e305c807c687032ff61240f8/d9199/simple-request.png]
+    ![img](https://evan-moon.github.io/static/d8ed6519e305c807c687032ff61240f8/d9199/simple-request.png)
     서버에게 바로 본요청을 보내면, 서버가 이에 대한 응답의 헤더에 Access-Control-Allow-Origin 과 같은 값을 보내주면 그때 브라우저가 CORS 정책 위반 여부를 검사한다.
 
     필요한 조건은
