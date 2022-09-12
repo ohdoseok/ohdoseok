@@ -99,3 +99,12 @@ SELECT ANIMAL_ID from ANIMAL_INS where NAME is not NULL order by ANIMAL_ID
 
 select NAME from(SELECT NAME from ANIMAL_INS order by DATETIME) where ROWNUM=1
 POINT! => oracle에서 특정조건을 만족하는 상위 n개를 구하려면 먼저 조건을 만족하는 테이블을 from에 넣고 where에 ROWNUM의 번호로 몇개를 뽑을지 정한다.
+
+#### 동물의 이름에 el 이 들어가는 개의 아이디와 이름을 조회 하는 SQL, 이름순으로 조회, 이름의 대소문자는 구분하지 않는다.
+
+SELECT ANIMAL_ID, NAME
+from ANIMAL_INS
+where lower(NAME) like lower('%el%') and ANIMAL_TYPE = 'Dog'
+order by NAME
+
+POINT! => like를 사용해서 앞에 들어가는지('문자%'), 뒤에 들어가는지('%문자'), 중간에 들어가는지('%문자%') 체크 할수있다, lower조건을 사용하면 그 대상도 lower로 해줘야한다, where의 여러 조건은 and로
