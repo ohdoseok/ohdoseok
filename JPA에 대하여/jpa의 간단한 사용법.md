@@ -65,3 +65,5 @@ _findByNameLike("%문자%")_
 findTop1ByNameOrderByIdDesc 첫번째 1개만 찾는데 where name = "", order by id desc
 findFirstByNameOrderByIdDescEmailAsc 첫번째 1개만 찾는데 where name = "", order by id desc and order , email asc
 findFirstByName("",Sort sort) 첫번째 하나만 찾는데 where name = "", Sort.by(Sort.Order.desc("property"),Sort.Order.asc("porperty"))
+
+Page interface구현체는 응답값 , Pageable은 요청값
