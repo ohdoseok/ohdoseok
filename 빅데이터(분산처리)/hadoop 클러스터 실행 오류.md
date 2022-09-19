@@ -8,6 +8,10 @@ hadoop디렉토리에 logs 에서 찍히는 로그 확인
 
 각각의 node를 확인해서 사용중인 포트를 kill해야함
 
+가장먼저 namenode를 초기화 해야함
+
+$ hdfs namenode -format
+
 netset -nap | grep 포트번호
 로 pid를 확인하고
 
