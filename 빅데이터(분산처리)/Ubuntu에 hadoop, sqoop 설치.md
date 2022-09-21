@@ -311,6 +311,261 @@ or
 $ start-all.sh
 ```
 
+참고 : https://spidyweb.tistory.com/214
+hadoop configure : https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=airguy76&logNo=150087361763
+
 ---
 
 ### sqoop 설치하기
+
+http://archive.apache.org/dist/sqoop/ 이곳에서 설치할 sqoop 버전을 확인한다
+
+1. 설치
+
+```
+$ wget https://archive.apache.org/dist/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+```
+
+압축풀기
+
+```
+$ tar -xvf sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+```
+
+심볼릭 링크 설정
+
+```
+ln -s sqoop-1.4.7.bin__hadoop-2.6.0 sqoop
+```
+
+심볼릭은 바로가기로 생각하면 된다 sqoop-1.4.7.bin\_\_hadoop-2.6.0 디렉토리를 sqoop으로 바로 연결된다.
+
+2. 환경변수 세팅
+
+**환경변수**
+/etc/profile : 부팅시 적용되는 파일 (root)
+
+/home/사용자계정/.bash_profile : 각 계정에 로그인할 때 로드
+
+/home/사용자계정/.bashrc : 로그인 한 상태에서 터미널을 열면 실행
+
+```
+$ vi ~/.bashrc
+```
+
+export SQOOP_HOME=/home/ubuntu/sqoop
+export SQOOP_CONF_DIR=$SQOOP_HOME/conf
+
+export SPARK_HOME=/home/ubuntu/spark-3.2.2
+
+export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin:$SQOOP_HOME/bin:$SPARK_HOME/bin:$SPARK_HOME/sbin
+
+환경변수 적용
+
+```
+$ source ~/.bashrc
+```
+
+2. 스쿱 설정파일에 하둡관련 설정을 추가
+   sqoop-env.sh 를 수정하는데 복사해서 만든다.
+
+```
+$ cp sqoop/conf/sqoop-env-template.sh sqoop/conf/sqoop-env.sh
+```
+
+- 해당 디렉토리로 이동
+
+```
+$ cd sqoop/conf/
+```
+
+- sqoop-env.sh수정
+
+```
+vi sqoop-env.sh
+```
+
+#Set Hadoop-specific environment variables here.
+export HADOOP_HOME=/home/ubuntu/hadoop
+
+#Set path to where bin/hadoop is available
+export HADOOP_COMMON_HOME=/home/ubuntu/hadoop
+
+#Set path to where hadoop-\*-core.jar is available
+export HADOOP_MAPRED_HOME=/home/ubuntu/hadoop
+
+#set the path to where bin/hbase is available
+#export HBASE_HOME=
+
+#Set the path to where bin/hive is available
+export HIVE_HOME=/home/ubuntu/hive
+
+하둡과 hive위치를 설정
+
+3. 스쿱과 연동할 DBMS의 연결 드라이버를 다운
+
+Mysql과 연결을 위한 db 커넥터 다운로드
+
+```
+$ wget https://downloads.mysql.com/archives/get/p/3/file/mysql-connector-java-5.1.46.tar.gz
+```
+
+압축 풀기
+
+```
+tar -xvf mysql-connector-java-5.1.46.tar.gz
+```
+
+폴더로 들어가서 jar 파일을 스쿱의 lib로 옮겨야함
+
+```
+$ cd mysql-connector-java-5.1.46/
+$ mv mysql-connector-java-5.1.46-bin.jar /home/ubuntu/sqoop/lib/
+```
+
+스쿱의 jar파일을 하둡 lib로 복사
+
+```
+$ cd
+$ cd sqoop
+$ cp sqoop-1.4.7.jar /home/ubuntu/hadoop/share/hadoop/tools/lib/
+```
+
+4. sqoop import시에 java.lang.NoClassDefFoundError: org/apache/commons/lang/StringUtils 라는 에러를 방지하기위해서
+
+```
+$ cd
+
+$ wget https://mirror.navercorp.com/apache//commons/lang/binaries/commons-lang-2.6-bin.tar.gz
+
+$ tar -xvf commons-lang-2.6-bin.tar.gz
+
+$ cd commons-lang-2.6
+```
+
+압축을 푼 디렉토리의 commons-lang-2.6jar 파일을 스쿱의 lib로 복사한다
+
+```
+$ cp commons-lang-2.6.jar /home/ubuntu/sqoop/lib
+```
+
+해당 디렉토리로 가서 겹치는 기존 파일의 이름을 바꿔준다.
+
+```
+$ cd /home/ubuntu/sqoop/lib/
+
+$ ll common*
+
+$ mv commons-lang3-3.4.jar commons-lang3-3.4.jar.bak
+```
+
+5. mysql 설정
+
+만약 mysql의 기본포트 3306이 사용중이라는 오류가 나오면 mysql의 포트를 변경해준다.
+
+```
+$ sudo su
+# vi /etc/mysql/mysql.conf.d/mysqld.cnf
+```
+
+port=3307로 변경
+
+mysql 재구동
+
+```
+$ systemctl restart mysqld
+```
+
+mysql에 root로 접속
+
+```
+$ sudo mysql -u root -p
+```
+
+모든 외부접속을 허용하는 .% 사용자를 만든다
+
+```
+> create user 'hive'@'%' identified by '비밀번호';
+```
+
+이때 비밀번호가 맞지않는다고 나오면?
+정책삭제
+
+```
+uninstall plugin validate_password;
+```
+
+권한부여
+
+```
+grant all privileges on *.* to 'hive'@'%';
+```
+
+항상 사용자를 만들거나 수정, 권한 변경시 flush
+
+```
+flush privileges;
+```
+
+반드시 mysql의 외부접속을 허용해야한다
+
+```
+$ vi /etc/mysql/my.cnf
+```
+
+!includedir /etc/mysql/conf.d/
+!includedir /etc/mysql/mysql.conf.d/
+
+다음과 같은 내용이 있다면
+
+```
+vi /etc/mysql/mysql.conf.d/mysqld.cnf
+```
+
+여기서 확인한다
+
+bind-address = 0.0.0.0
+로 변경
+
+변경후
+
+```
+$ service mysql restart
+```
+
+오류가 안나면 잘 설치 된것
+
+```
+$ sqoop help
+```
+
+6. sqoop 명령어
+
+데이터베이스 리스트 확인
+
+```
+$ sqoop list-databases --connect jdbc:mysql://ip주소:3306 --username hive --P
+
+```
+
+import
+
+```
+$ sqoop import --connect jdbc:mysql://ip주소:3306/스키마이름 --table 테이블이름 --target-dir /output저장할경로 --username hive --P -m 1
+```
+
+export
+
+```
+$ sqoop export --connect jdbc:mysql://ip주소:3306/스키마이름 --table 데이터가 들어갈 테이블명 --export-dir /input될데이터경로/part-m-00000 --username hive --P
+```
+
+참고 : https://earthconquest.tistory.com/241
+
+import결과를 local로 옮기려면
+
+```
+$ hadoop fs -get /데이터경로/part-r-00000 $HOME/new1.csv
+```
+
+시각화, hadoop 명령어 : https://warm-uk.tistory.com/61?category=810504
