@@ -12,7 +12,6 @@ ___
 <br>
 <img src="https://img.shields.io/github/commit-activity/w/ohdoseok/ohdoseok"/>
 <!-- <img src="https://img.shields.io/badge/notion-000000?style=flat-square&logo=Notion&logoColor=ffffff"/> -->
-![Amazon AWS](https://img.shields.io/badge/-Amazon AWS-232F3E.svg?&style=for-the-badgee&logo=Amazon AWS&logoColor=ffffff)
 <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=Amazon AWS&logoColor=ffffff"/>
 <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat-square&logo=Amazon EC2&logoColor=ffffff"/>
 <img src="https://img.shields.io/badge/Jenkins-D24939?style=flat-square&logo=Jenkins&logoColor=ffffff"/>
