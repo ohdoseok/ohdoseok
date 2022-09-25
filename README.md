@@ -23,7 +23,7 @@ ___
 
 ___
 
-📑 Portfolio 📑
+📑 My Notion 📑
 <br>
 <br>
 <a href="https://www.notion.so/Doseok-Oh-34f4bfeb468f4394b0fa5dc16ac1067b"><img src="https://img.shields.io/badge/notion-000000?style=flat-square&logo=Notion&logoColor=ffffff"/></a>
