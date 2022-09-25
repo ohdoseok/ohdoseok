@@ -3,7 +3,7 @@
 >
 ___
 
-📜 **Studying** 📜
+
 
 
 ![HTML5](https://img.shields.io/badge/-HTML5-F05032.svg?&style=for-the-badge&logo=html5&logoColor=ffffff)
@@ -13,7 +13,7 @@ ___
 <!-- ![Vue.js](https://img.shields.io/badge/-Vue.js-009900.svg?&style=for-the-badge&logo=vue.js&logoColor=ffffff) -->
 
 
-
+📜 **Studying** 📜
 <br>
 <br>
 <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=Amazon AWS&logoColor=ffffff"/>
