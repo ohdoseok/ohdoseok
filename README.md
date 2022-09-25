@@ -10,7 +10,7 @@ ___
 <br>
 <img src="https://img.shields.io/github/commit-activity/w/ohdoseok/ohdoseok"/>
 <br>
-portfolio : [Notion](https://www.notion.so/Doseok-Oh-34f4bfeb468f4394b0fa5dc16ac1067b)
+portfolio : [Notion]: (https://www.notion.so/Doseok-Oh-34f4bfeb468f4394b0fa5dc16ac1067b)
 <!--
 **ohdoseok/ohdoseok** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
