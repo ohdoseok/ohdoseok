@@ -31,4 +31,5 @@ ___
 
 ___
 
+🏝 **Commit** 🏝
 <img src="https://img.shields.io/github/commit-activity/w/ohdoseok/ohdoseok"/>
