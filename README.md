@@ -11,7 +11,6 @@ ___
 <!-- ![Vue.js](https://img.shields.io/badge/-Vue.js-009900.svg?&style=for-the-badge&logo=vue.js&logoColor=ffffff) -->
 
 <br>
-<img src="https://img.shields.io/github/commit-activity/w/ohdoseok/ohdoseok"/>
 <!-- <img src="https://img.shields.io/badge/notion-000000?style=flat-square&logo=Notion&logoColor=ffffff"/> -->
 <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=Amazon AWS&logoColor=ffffff"/>
 <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat-square&logo=Amazon EC2&logoColor=ffffff"/>
@@ -19,3 +18,6 @@ ___
 <img src="https://img.shields.io/badge/NGINX-009639?style=flat-square&logo=NGINX&logoColor=ffffff"/>
 <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat-square&logo=Spring Boot&logoColor=ffffff"/>
 <img src="https://img.shields.io/badge/ApacheHadoop-66CCFF?style=flat-square&logo=ApacheHadoop&logoColor=ffffff"/>
+
+<br>
+<img src="https://img.shields.io/github/commit-activity/w/ohdoseok/ohdoseok"/>
