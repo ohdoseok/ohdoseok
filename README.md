@@ -22,14 +22,14 @@ ___
 ![MySql](https://img.shields.io/badge/-MySql-3399FF.svg?&style=for-the-badge&logo=mysql&logoColor=000000)
 <!-- ![Vue.js](https://img.shields.io/badge/-Vue.js-009900.svg?&style=for-the-badge&logo=vue.js&logoColor=ffffff) -->
 
-___
+
 
 📑 **My Notion** 📑
 <br>
 <br>
 <a href="https://www.notion.so/Doseok-Oh-34f4bfeb468f4394b0fa5dc16ac1067b"><img src="https://img.shields.io/badge/notion-000000?style=flat-square&logo=Notion&logoColor=ffffff"/></a>
 
-___
+
 
 🏝 **Commit** 🏝
 <br>
