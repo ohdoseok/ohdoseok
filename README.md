@@ -10,7 +10,7 @@ ___
 ![MySql](https://img.shields.io/badge/-MySql-3399FF.svg?&style=for-the-badge&logo=mysql&logoColor=000000)
 <!-- ![Vue.js](https://img.shields.io/badge/-Vue.js-009900.svg?&style=for-the-badge&logo=vue.js&logoColor=ffffff) -->
 
-<br>
+
 📜 **Studying** 📜
 <br>
 <br>
