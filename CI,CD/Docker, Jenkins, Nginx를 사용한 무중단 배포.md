@@ -449,3 +449,78 @@ tar -zxvf front.tar.gz
 ---
 
 전체적인 코드 참고 : https://gksdudrb922.tistory.com/236
+
+---
+
+### 진행중에 생긴 모든 이슈들
+
+```
+Nginx 오류 로그 : /var/log/nginx/error.log
+Nginx 시작시 오류 : sudo nginx -t 로 확인
+Nginx 실행,중단,상태 보기 등의 코드 : https://computer-science-student.tistory.com/393
+
+```
+
+1. 컨테이너 내부에서 설치를 위한 root 계정으로 컨테이너 접속
+
+```
+$ docker exec -it -u 0 컨테이너이름 /bin/bash
+```
+
+2. 최신버전의 nodejs와 npm 설치
+
+```
+1. curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_16_setup.sh (설치 스크립트를 다운로드합니다)(원하는 버전이 있다면 16자리에 넣자 ex)14,15 등 )
+2. sudo bash nodesource_16_setup.sh (그 다음 다운로드한 스크립트를 실행시킵니다)(스크립트를 실행하면 ppa 등록이 완료됩니다.)
+3. sudo apt install nodejs (nodejs설치)
+4. sudo apt install build-essential (추가적으로 npm으로 패키지를 설치할 때 컴파일이 필요한 경우가 있으니 각종 빌드 툴이 포함된 build-essential 패키지가 설치되어 있지 않다면 설치해줍니다)
+5. sudo npm install -g npm (npm 최신버전으로 upgrade)
+```
+
+3. domain이름 could not be resolved (110: Operation timed out) 과 같은 nginx 오류
+
+```
+resolver 설정 해야함
+1. cat /etc/resolv.conf/nameserver
+2. nginx에서
+
+resolber 1번값 valid=5s;
+set $elb domain이름
+
+참고 : https://betheproud.medium.com/nginx-proxy-pass-with-aws-elb-domain-ba279821e60f
+```
+
+4. SSH 키 이용 시 bad permissions: ignore key: 에러가 발생
+
+```
+키의 권한 (Permission) 을 chmod 를 통해 400 으로 변경
+
+$ chmod 400 ./{key_name}
+
+출처: https://www.deok.me/entry/SSH-키-이용-시-bad-permissions-ignore-key-에러가-발생할-경우
+```
+
+5. Nginx 웹서버 Config 설정시 Conflicting Server Name 에러 발생
+
+```
+다른 설정 파일에서 동일한 server name이 설정됨
+
+보통 default와 새로 생성한 server name이 겹친다. 둘 중 하나 삭제
+
+```
+
+6. Bash Shell Script의 "[: too many arguments" 에러
+
+```
+나의 경우에는 Dockerfile의 if문의 수와 fi의 수가 달랐고
+elseif 나 if의 then이 없었다.
+그리고 then은 newline으로 써야함
+```
+
+7. tar 압축, 압축 풀기
+```
+tar -zcvf abc.tar.gz abc -> 압축
+tar -xvf abc.tar    -> 압축풀기
+
+참고 : https://cryptosalamander.tistory.com/99
+```
