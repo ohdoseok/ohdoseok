@@ -9,5 +9,4 @@ ___
 ![MySql](https://img.shields.io/badge/-MySql-3399FF.svg?&style=for-the-badge&logo=mysql&logoColor=ffffff) -->
 <br>
 <img src="https://img.shields.io/github/commit-activity/w/ohdoseok/ohdoseok"/>
-<br>
 portfolio : [Notion](https://www.notion.so/Doseok-Oh-34f4bfeb468f4394b0fa5dc16ac1067b)
