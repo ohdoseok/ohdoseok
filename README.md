@@ -11,7 +11,7 @@ ___
 <!-- ![Vue.js](https://img.shields.io/badge/-Vue.js-009900.svg?&style=for-the-badge&logo=vue.js&logoColor=ffffff) -->
 
 <br>
-<!-- <img src="https://img.shields.io/badge/notion-000000?style=flat-square&logo=Notion&logoColor=ffffff"/> -->
+<a>https://www.notion.so/Doseok-Oh-34f4bfeb468f4394b0fa5dc16ac1067b</a><img src="https://img.shields.io/badge/notion-000000?style=flat-square&logo=Notion&logoColor=ffffff"/>
 <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=Amazon AWS&logoColor=ffffff"/>
 <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat-square&logo=Amazon EC2&logoColor=ffffff"/>
 <img src="https://img.shields.io/badge/Jenkins-D24939?style=flat-square&logo=Jenkins&logoColor=ffffff"/>
