@@ -188,6 +188,15 @@ $ sudo service nginx status
 
 ```
 
+- nginx.conf
+  **fileupload시 nginx가 기본 1MB로 제한하고 있어서**
+
+```
+http {
+    client_max_body_size 0;
+}
+```
+
 1. /etc/nginx/sites-enable/ 내부의 파일에 설정
 
 ```
@@ -205,6 +214,7 @@ server {
   set $elb " j7d106.p.ssafy.io ";
 
   location / {
+    client_max_body_size 0;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
@@ -212,6 +222,7 @@ server {
     try_files $uri /index.html;
   }
    location /api {
+        client_max_body_size 0;
         proxy_pass $service_url;
 
         proxy_set_header Host $host;
@@ -518,6 +529,7 @@ elseif 나 if의 then이 없었다.
 ```
 
 7. tar 압축, 압축 풀기
+
 ```
 tar -zcvf abc.tar.gz abc -> 압축
 tar -xvf abc.tar    -> 압축풀기
