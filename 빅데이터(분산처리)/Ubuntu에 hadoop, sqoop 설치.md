@@ -148,6 +148,7 @@ $ sudo vi ~/.bashrc
 export PDSH_RCMD_TYPE=ssh 추가
 ```
 
+```
 <configuration>
 
 <property>
@@ -168,6 +169,8 @@ export PDSH_RCMD_TYPE=ssh 추가
 
 </configuration>
 
+```
+
 hadoop.tmp.dir => 클러스터 내의 NameNode를 가리키는 URI (protocol 표시, host명, port) 이다. 모든 DataNode instance는 반드시 NameNode에 등록을 해야 하므로 DataNode는 NameNode의 주소를 알고 있어야 한다. 개별 클라이언트 프로그램은 이 정보를 통해 실제 파일 블록의 위치를 알아낼 수 있다.
 
 hadoop의 핵심 property들을 정의하기위한 tmpdata를 만들어줘야함
@@ -185,6 +188,7 @@ $ mkdir tmpdata
 $ vi $HADOOP_HOME/etc/hadoop/hdfs-site.xml
 ```
 
+```
 <configuration>
 <property>
 
@@ -210,7 +214,7 @@ $ vi $HADOOP_HOME/etc/hadoop/hdfs-site.xml
 
 </property>
 </configuration>
-
+```
 9. mapred-site.xml 파일 편집하기
 
 - **mapreduce 파일의 값을 정의하기 위한 파일입니다.**
@@ -219,6 +223,7 @@ $ vi $HADOOP_HOME/etc/hadoop/hdfs-site.xml
 $ vi $HADOOP_HOME/etc/hadoop/mapred-site.xml
 ```
 
+```
 <configuration>
 
 <property>
@@ -231,11 +236,16 @@ $ vi $HADOOP_HOME/etc/hadoop/mapred-site.xml
 
 </configuration>
 
+```
 10. yarn-site.xml 파일 편집하기
 
 - **yarn-site.xml은 yarn에 관련된 세팅들을 정의 하는 파일이다.**
 - **node manager, Resource manager, containers, application master설정에 관한것을 포함합니다.**
+```
+$ vi $HADOOP_HOME/etc/hadoop/yarn-site.xml
+```
 
+```
 <configuration>
 
 <property>
@@ -291,6 +301,8 @@ $ vi $HADOOP_HOME/etc/hadoop/mapred-site.xml
 </property>
 
 </configuration>
+
+```
 
 10. Format HDFS Namenode
 
