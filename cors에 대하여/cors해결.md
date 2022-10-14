@@ -7,7 +7,7 @@ public class AddResponseHeaderFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        String origin = request.getHeader("Origin");
+        String origin = request.getHeader("Origin"); // 어디서 요청이 왔는지 확인 ex) http://~~~
         response.setHeader("Access-Control-Allow-Origin", origin );
 
         response.setHeader("Access-Control-Allow-Credentials", "true");
@@ -16,8 +16,8 @@ public class AddResponseHeaderFilter implements Filter {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "authorization, content-type, xsrf-token, Sec-Fetch-Mode, Sec-Fetch-Site, Sec-Fetch-Dest");
         response.addHeader("Access-Control-Expose-Headers", "xsrf-token");
-        if ("OPTIONS".equals(request.getMethod())) {
-            response.setStatus(HttpServletResponse.SC_OK);
+        if ("OPTIONS".equals(request.getMethod())) { //request가 get이나 post등이 아니라 options로 오면 ok를 response에 넣는데 preflight가 서버와 통신하기 위한 통신 옵션으로 사용하는게 options
+            response.setStatus(HttpServletResponse.SC_OK); // 200response
         } else {
             filterChain.doFilter(request, response);
         }
