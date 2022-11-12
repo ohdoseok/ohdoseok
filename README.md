@@ -38,6 +38,6 @@ ___
 
 
 <br>
-:computer: **github** :computer:
+🖥️
 <br>
 [![Solved.ac Profile](http://mazassumnida.wtf/api/v2/generate_badge?boj=pkqwe37)](https://solved.ac/pkqwe37/)
