@@ -130,3 +130,22 @@ on A.ANIMAL_ID = B.ANIMAL_ID
 order by B.DATETIME - A.DATETIME desc
 limit 2
 ```
+
+2022년 1월의 카테고리 별 도서 판매량을 합산하고, 카테고리(CATEGORY), 총 판매량(TOTAL_SALES) 리스트를 출력하는 SQL문을 작성해주세요.
+결과는 카테고리명을 기준으로 오름차순 정렬해주세요.
+
+정답 :
+
+```
+-- 코드를 입력하세요
+select C.CATEGORY, sum(C.TOTAL_SALES) as 'TOTAL_SALES'
+from (
+select B.CATEGORY, A.TOTAL_SALES
+from (SELECT BOOK_ID, sum(SALES) as 'TOTAL_SALES'
+from BOOK_SALES
+where YEAR(SALES_DATE) = 2022 and MONTH(SALES_DATE) = 01
+group by BOOK_ID) as A join BOOK as B
+on A.BOOK_ID = B.BOOK_ID) as C
+group by C.CATEGORY
+order by C.CATEGORY
+```
