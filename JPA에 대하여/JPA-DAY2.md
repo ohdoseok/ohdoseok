@@ -21,3 +21,10 @@ EntityManager -> PersistenceContext
 1차 캐시에서 조회
 캐시를 확인해서 없으면 DB에서 가지고와서 캐시에 저장, 다음 부터는 바로 캐시에서 꺼내 쓸 수있다.
 하지만, TX이 끝나면 영속성 컨텍스트는 삭제되기때문에 크게 성능적 이점은 없다.
+
+영속 엔티티의 동일성 보장
+같은 id로 find하였을때 == 비교시 동일한 객체로 조회 된다.
+
+em.persist(entity) -> 1차캐시에 저장, 쓰기 지연 SQL 저장소에 Insert SQL 생성(계속해서 쌓임) -> tx.commit() 쓰기 지연 SQL 저장소에 있던 내용이 DB에 flush된다 -> commit() 
+
+1차 캐시에는 값을 처음 가져온 시점의 entity의 스냅샷이 있는데 flush 될때 entity와 스냅샷을 배교해서 쿼리를 날린다.
