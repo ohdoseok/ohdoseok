@@ -22,6 +22,13 @@ DELETE : 삭제 -> DROP과 다르게 ROW를 삭제
 UPDATE : 변경
 ```
 
+활용
+
+```
+Insert into TABLE(Col1, Col2) values (Row1, Row2) ON DUPLICATE KEY UPDATE ColName = Col3
+-> Col1, Col2 를 삽입하는데 pk인 Col1의 값이 있다면 ColName값을 Col3로 변경
+```
+
 ### DQL
 
 ```
@@ -43,6 +50,14 @@ REVOKE : 사용자에게 권한 취소
 
 ```
 COMMIT과 ROLLBACK을 분리해서 부름
+```
+
+### DELETE, TRUNCATE, DROP
+
+```
+DELETE는 Row를 모두 지우지만 테이블 내의 공간은 지워지지 않음
+TRUNCATE는 ROW를 모두 지우고 테이블 내의 공간도 지움
+DROP은 Column을 포함한 테이블을 삭제
 ```
 
 ### 트랜잭션 특징
