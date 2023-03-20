@@ -56,3 +56,5 @@ team.getMembers().add(Member); 을 해줘야함 -> 쉽게 Member entity의 set T
 ```
 
 즉, 반드시 양쪽 모두에 값을 넣어줘야한다(순수 객체 상태를 고려하여)
+
+주의 사항 : 양방향 연관관계시 lombok의 toString()을 사용할 때는 해당 부분을 제외 하고 사용, 컨트롤러에서 response로 entity를 반환하지말것, dto(값만있는 클래스)에 넣어서 반환
